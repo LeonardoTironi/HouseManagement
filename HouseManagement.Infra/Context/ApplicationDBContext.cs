@@ -1,30 +1,43 @@
 ﻿using HouseManagement.Domain.Entity;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace HouseManagement.Infra.Context
 {
 
-    public class ApplicationDBContext : DbContext
+    public class ApplicationDbContext : DbContext
     {
-        public ApplicationDBContext(DbContextOptions<ApplicationDBContext> options) :base(options)
+        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) :base(options)
         {
             
         }
+        
         public DbSet<Person> People { get; set; }
+        public DbSet<Transaction> Transactions { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
 
             modelBuilder.Entity<Person>()
-                .Property(x => x.Name).HasColumnType("varchar(70)");
+                .Property(x => x.Name).HasColumnType("varchar(70)").IsRequired();
             modelBuilder.Entity<Person>()
-                .Property(x => x.Idade).HasColumnType("int");
-        }
+                .Property(x => x.Idade).HasColumnType("int").IsRequired();
 
+            modelBuilder.Entity<Transaction>()
+                .Property(x => x.Description).HasColumnType("varchar(150)").IsRequired();
+            modelBuilder.Entity<Transaction>()
+                .Property(x => x.Value).HasColumnType("decimal (7,2)").IsRequired();
+            modelBuilder.Entity<Transaction>()
+                .Property(x => x.IsRevenue).HasColumnType("bit").IsRequired();
+            modelBuilder.Entity<Transaction>()
+                .Property(x => x.IdPerson).HasColumnType("int").IsRequired();
+
+            modelBuilder.Entity<Person>()
+                .HasMany(x => x.Transactions)
+                .WithOne(x => x.Person)
+                .HasForeignKey(x=> x.IdPerson)
+                .OnDelete(DeleteBehavior.ClientCascade);
+
+        }
     }
 }

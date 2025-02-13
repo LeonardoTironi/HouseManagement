@@ -6,7 +6,7 @@ namespace HouseManagement.Application.Interfaces
     {
         Task Add(PersonAddDTO personAddDTO);
         Task<PersonResponseDTO> Get(int id);
-        Task Update(PersonUpdateDTO personUpdateDTO);
+        Task<List<PersonResponseDTO>> GetAll();
         Task Delete(int id);
     }
 }

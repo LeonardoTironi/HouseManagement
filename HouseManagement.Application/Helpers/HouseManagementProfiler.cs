@@ -10,7 +10,8 @@ namespace HouseManagement.Application.Helpers
         {
             CreateMap<Person, PersonAddDTO>().ReverseMap();
             CreateMap<Person, PersonResponseDTO>().ReverseMap();
-            CreateMap<Person, PersonUpdateDTO>().ReverseMap();
+            CreateMap<Transaction, TransactionAddDTO>().ReverseMap();
+            CreateMap<Transaction, TransactionsResponseDTO>().ReverseMap();
 
         }
 

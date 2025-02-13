@@ -1,6 +1,4 @@
-﻿
-
-namespace HouseManagement.Application.DTOs
+﻿namespace HouseManagement.Application.DTOs
 {
     public class PersonAddDTO
     {

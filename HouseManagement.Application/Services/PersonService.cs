@@ -31,15 +31,26 @@ namespace HouseManagement.Application.Services
                 throw new Exception("Erro ao cadastrar uma pessoa.");
             }
         }
+        
         public Task<PersonResponseDTO> Get(int id)
         {
             throw new NotImplementedException();
+            
         }
-        public Task Update(PersonUpdateDTO personUpdateDTO)
+        public async Task<List<PersonResponseDTO>> GetAll()
         {
-            throw new NotImplementedException();
+            try
+            {
+                List<Person>? people = await _personRepository.GetAll();
+                List<PersonResponseDTO> peopleDTO = _mapper.Map<List<PersonResponseDTO>>(people);
+                return peopleDTO;
+            }
+            catch
+            {
+                throw new ApplicationException("Pessoas não foram encontradas.");
+            }
         }
-
+        
 
         public async Task Delete(int id)
         {

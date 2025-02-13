@@ -1,18 +1,13 @@
 ﻿using HouseManagement.Domain.Interfaces;
 using HouseManagement.Infra.Context;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace HouseManagement.Infra.Repositories
 {
     public class GeneralRepository : IGeneralRepository
     {
-        private readonly ApplicationDBContext _application;
+        private readonly ApplicationDbContext _application;
 
-        public GeneralRepository(ApplicationDBContext application)
+        public GeneralRepository(ApplicationDbContext application)
         {
             _application = application;
         }

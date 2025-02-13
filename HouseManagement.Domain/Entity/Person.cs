@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace HouseManagement.Domain.Entity
+﻿namespace HouseManagement.Domain.Entity
 {
     public class Person
     {
@@ -12,14 +6,16 @@ namespace HouseManagement.Domain.Entity
         {
             Name = name;
             Idade = idade;
+            Transactions = new List<Transaction>();
         }
         protected Person()
         {
-            
+            Transactions = new List<Transaction>();
         }
 
         public int Id { get; set; }
         public string Name { get; set; }
         public int Idade { get; set; }
+        public List<Transaction> Transactions { get; set; }
     }
 }
