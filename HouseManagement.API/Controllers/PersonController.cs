@@ -15,6 +15,9 @@ namespace HouseManagement.API.Controllers
             _personService = personService;
         }
         [HttpPost]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        [Produces("application/json")]
         public async Task<ActionResult> Add(PersonAddDTO personAddDTO)
         {
             await _personService.Add(personAddDTO);
@@ -22,6 +25,9 @@ namespace HouseManagement.API.Controllers
         }
 
         [HttpGet]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        [Produces("application/json")]
         public async Task<ActionResult> GetAll()
         {
             List<PersonResponseDTO> people = await _personService.GetAll();
@@ -30,6 +36,9 @@ namespace HouseManagement.API.Controllers
 
         [HttpDelete]
         [Route("{id}")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        [Produces("application/json")]
         public async Task<ActionResult> Delete(int id)
         {
             await _personService.Delete(id);

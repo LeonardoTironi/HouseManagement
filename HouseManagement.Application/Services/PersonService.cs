@@ -3,6 +3,7 @@ using HouseManagement.Application.DTOs;
 using HouseManagement.Application.Interfaces;
 using HouseManagement.Domain.Entity;
 using HouseManagement.Domain.Interfaces;
+using System.Transactions;
 
 namespace HouseManagement.Application.Services
 {
@@ -32,10 +33,19 @@ namespace HouseManagement.Application.Services
             }
         }
         
-        public Task<PersonResponseDTO> Get(int id)
+        public async Task<PersonResponseDTO> Get(int id)
         {
-            throw new NotImplementedException();
-            
+            try
+            {
+                Person person = await _personRepository.Get(id);
+                PersonResponseDTO personResponseDTO = _mapper.Map<PersonResponseDTO>(person);
+                return personResponseDTO;
+            }
+            catch
+            {
+                throw new Exception("Erro ao procurar uma pessoa.");
+            }
+
         }
         public async Task<List<PersonResponseDTO>> GetAll()
         {

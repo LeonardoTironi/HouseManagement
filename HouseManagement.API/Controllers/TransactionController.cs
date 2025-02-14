@@ -17,18 +17,40 @@ namespace HouseManagement.API.Controllers
         }
 
         [HttpPost]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        [Produces("application/json")]
         public async Task<ActionResult> Add(TransactionAddDTO transactionAddDTO)
         {
-            await _transactionService.Add(transactionAddDTO);
-            return NoContent();
+            try
+            {
+                await _transactionService.Add(transactionAddDTO);
+                return NoContent();
+            }
+            catch(Exception ex)
+            {
+                return BadRequest(new { message = ex.Message });
+            }
         }
 
         [HttpDelete]
         [Route("{id}")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        [Produces("application/json")]
         public async Task<ActionResult> Delete(int id)
         {
-            await _transactionService.Delete(id);
-            return NoContent();
+            try
+            {
+                await _transactionService.Delete(id);
+                return NoContent();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { message = ex.Message });
+            }
         }
 
     }

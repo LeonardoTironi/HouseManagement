@@ -11,9 +11,10 @@ namespace HouseManagement.Application.Services
         private readonly IGeneralRepository _generalRepository;
         private readonly ITransactionRepository _transactionRepository;
         private readonly IMapper _mapper;
-
-        public TransactionService(IGeneralRepository generalRepository, ITransactionRepository transactionRepository, IMapper mapper)
+        private readonly IPersonRepository _personRepository;
+        public TransactionService(IGeneralRepository generalRepository, ITransactionRepository transactionRepository, IMapper mapper, IPersonRepository personRepository)
         {
+            _personRepository = personRepository;
             _generalRepository = generalRepository;
             _transactionRepository = transactionRepository;
             _mapper = mapper;
@@ -23,7 +24,19 @@ namespace HouseManagement.Application.Services
             try
             {
                 Transaction transaction = _mapper.Map<Transaction>(transactionAddDTO);
-                await _generalRepository.Add(transaction);
+                Person person = await _personRepository.Get(transaction.IdPerson);
+                if (person.Idade < 18 && transaction.IsRevenue)
+                {
+
+                    throw new ApplicationException("Menores de idade não devem cadastrar entradas");
+                }
+                else
+                {
+                    await _generalRepository.Add(transaction);
+                }
+            }
+            catch (ApplicationException e) {
+                throw new ApplicationException(e.Message);
             }
             catch (Exception)
             {
@@ -31,6 +44,7 @@ namespace HouseManagement.Application.Services
                 throw new Exception("Erro ao cadastrar uma transação.");
             }
         }
+
 
         public async Task<List<TransactionsResponseDTO>> GetAll()
         {
